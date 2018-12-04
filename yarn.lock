@@ -638,9 +638,9 @@ commander@^2.11.0:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
 
-compromise@11.5.3:
-  version "11.5.3"
-  resolved "https://registry.yarnpkg.com/compromise/-/compromise-11.5.3.tgz#127c53a130e2676d6519d50ac758091bb5c64c86"
+compromise@11.12.4:
+  version "11.12.4"
+  resolved "https://registry.yarnpkg.com/compromise/-/compromise-11.12.4.tgz#f2c6ac011f9d5bfe8ea1483bd1880747daaad76e"
   dependencies:
     efrt-unpack "2.0.3"
 
