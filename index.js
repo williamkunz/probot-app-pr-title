@@ -14,11 +14,39 @@ module.exports = robot => {
   async function check(context) {
     const pr = context.payload.pull_request;
     const errors = validateTitle(pr.title);
-    setStatus(context, errors);
+    await setComment(context, errors);
+    await setStatus(context, errors);
   }
 };
 
-function setStatus(context, errors) {
+const setComment = async (context, errors) => {
+  const {github} = context;
+
+  const {owner, repo} = context.repo();
+  const number = context.payload.pull_request.number;
+
+  const format_errors = errors => {
+    let formatted_errors = '';
+    for (let error of errors) {
+      formatted_errors += `* ${error}\n`;
+    }
+
+    return formatted_errors;
+  };
+
+  const body = `
+This project enforces that PR titles are written in accordance with the rules of writing good commit messsages as outlined in https://chris.beams.io/posts/git-commit/.
+
+Please fix the following errors with your PR title:
+${format_errors(errors)}
+`;
+
+  if (errors.length !== 0) {
+    await github.issues.createComment({owner, repo, number, body});
+  }
+};
+
+const setStatus = async (context, errors) => {
   const {github} = context;
 
   const status =
@@ -29,14 +57,14 @@ function setStatus(context, errors) {
         }
       : {
           state: 'failure',
-          description: 'PR title is invalid:\n' + errors.join('\n'),
+          description: 'PR title is invalid',
         };
 
-  github.repos.createStatus(
+  await github.repos.createStatus(
     context.repo({
       ...status,
       sha: context.payload.pull_request.head.sha,
       context: 'probot/pr-title',
     }),
   );
-}
+};
