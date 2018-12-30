@@ -64,7 +64,7 @@ const setStatus = async (context, errors) => {
     context.repo({
       ...status,
       sha: context.payload.pull_request.head.sha,
-      context: 'probot/pr-title',
+      context: 'containershipbot/pr-title',
     }),
   );
 };
