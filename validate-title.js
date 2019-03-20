@@ -36,6 +36,7 @@ const nounWhitelist = new Set([
   'configure',
   'disable',
   'enforce',
+  'fetch',
   'implement',
   'log',
   'pin',
